@@ -43,6 +43,6 @@
 #fastqc -o data/fastqc_trimmed_results data/trimmed_fastq/*.fastq.gz
 
 #Run Multiqc to compile the trimmed FASTqc results
-module load MultiQC/1.14-foss-2022a
-mkdir data/multi_fastqc_trimmed_results
-multiqc -o data/multi_fastqc_trimmed_results data/fastqc_trimmed_results
+#module load MultiQC/1.14-foss-2022a
+#mkdir data/multi_fastqc_trimmed_results
+#multiqc -o data/multi_fastqc_trimmed_results data/fastqc_trimmed_results
