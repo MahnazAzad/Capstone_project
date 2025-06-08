@@ -29,19 +29,36 @@
 
 #To count how many reads are aligned (mapped) in each sorted .bam file
 # Load the necessary tools
-module load SAMtools/1.18-GCC-12.3.0
-module load BCFtools/1.18-GCC-12.3.0
+#module load SAMtools/1.18-GCC-12.3.0
+#module load BCFtools/1.18-GCC-12.3.0 (probably it is not nedded in this step)
 
-echo -e "sample\taligned_reads" > aligned_counts.tsv
+#echo -e "sample\taligned_reads" > aligned_counts.tsv
 
 # Loop through each sorted BAM file
-for bam in results/bam/*.sorted.bam
-do
-  echo $bam  # print file name (for tracking)
+#for bam in results/bam/*.sorted.bam
+#do
+ # echo $bam  # print file name (for tracking)
 
   # Count only mapped reads (-F 0x4 excludes unmapped ones)
-  reads=$(samtools view -F 0x4 "$bam" | wc -l)
+  #reads=$(samtools view -F 0x4 "$bam" | wc -l)
 
   # Append the sample name and aligned read count to the output summary file
-  echo -e "$bam\t$reads" >> aligned_counts.tsv
+  #echo -e "$bam\t$reads" >> aligned_counts.tsv
+#done
+
+#to count the number of varient sites in each VCF file and add the result to the sammary_stats.tsv file
+
+# Load the necessary tools
+module load BCFtools/1.18-GCC-12.3.0
+
+# Loop through each VCF file 
+for vcf in results/vcf/*.vcf
+do
+  echo $vcf  # Print the VCF filename for progress tracking
+
+  # Count the number of variant records by excluding header lines (-H option)
+  variants=$(bcftools view -H "$vcf" | wc -l)
+
+  # Add a line to the summary file: file name, type ("variants"), and count
+  echo -e "$vcf\tvariants\t$variants" >> summary_stats.tsv
 done
